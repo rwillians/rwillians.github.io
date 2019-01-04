@@ -1,0 +1,54 @@
+---
+title: Ops! 404 Not Found
+---
+
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <style>
+    .title:not(.is-spaced)+.subtitle {
+      margin-top: -1rem;
+    }
+
+    a.is-underscored {
+      border-bottom: 2px dotted rgba(54, 54, 54, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  <section class="hero is-light is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title is-size-1 has-text-grey-light">404</h1>
+        <h2 class="title">
+          I couldn't find whatever you were looking for.
+        </h2>
+        <h2 class="subtitle">
+          Want to <a href="/" class="is-underscored">take a look at my resume</a> instead?
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  {% if site.google_analytics %}
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131750791-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', '{{ site.google_analytics }}');
+  </script>
+  {% endif %}
+</body>
+
+</html>

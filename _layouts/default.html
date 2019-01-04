@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ site.title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+    <style>
+        body, html {
+            background-color: #f5f5f5;
+        }
+
+        figure.is-avatar {
+            margin-right: 1.5rem;
+        }
+
+        hr {
+            background-color: #eee;
+        }
+
+        .image img.has-rounded-corners {
+            border-radius: 10px;
+        }
+
+        .title {
+            margin-left: -1px;
+        }
+
+        section#about .is-bottom-spaced {
+            margin-bottom: 1.5rem;
+        }
+
+        section#about .title.is-size-3:first-child {
+            margin-top: -0.425rem;
+        }
+
+        section#about .social-link:not(:last-child) {
+            margin-bottom: 0.5rem;
+        }
+
+        section#about .social-link a {
+            color: #363636;
+        }
+
+        section#content .title.is-size-4:first-child {
+            margin-top: -0.25rem;
+        }
+
+        @media print {
+            body, html {
+                font-size: 0.9rem;
+            }
+
+            section#about {
+                margin-bottom: 1.5rem;
+            }
+
+            .columns section.column {
+                flex: none;
+                width: 100%;
+            }
+
+            .page-break-before {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="field is-grouped">
+                <div class="control">
+                    <figure class="image is-avatar is-48x48">
+                        <img class="is-rounded" src="https://www.gravatar.com/avatar/{{ page.resume.email | downcase | md5 }}.jpg?s=96&r=g">
+                    </figure>
+                </div>
+                <div class="columns is-multiline">
+                    <section id="about" class="column is-full-touch is-one-third-desktop">
+                        <h1 class="title is-size-3">
+                            {{ page.resume.name }}{% if page.resume.birthdate %},
+                                {% assign bornedAt = page.resume.birthdate | date: '%s' %}
+                                {% assign age = site.time | date: '%s' | minus: bornedAt | divided_by: 60 | divided_by: 60 | divided_by: 24 | divided_by: 365 %}
+                                <span class="has-text-weight-light">{{ age }}</span>
+                            {% endif %}
+                        </h1>
+
+                        <h2 class="subtitle">
+                            {{ page.resume.role }}
+                        </h2>
+
+                        <p class="is-bottom-spaced">
+                            <em>{{ page.resume.tagline | default: site.github.project_tagline }}</em>
+                        </p>
+
+                        <p class="is-bottom-spaced">
+                            <span class="icon">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </span>
+                            São Paulo, São Paulo, Brazil
+                        </p>
+
+                        <div class="field is-grouped">
+                            <p class="control social-link">
+                                <a href="https://github.com/{{ page.resume.github }}" target="_blank" class="button">
+                                    <span class="icon">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>{{ page.resume.github }}</span>
+                                </a>
+                            </p>
+                            <p class="control social-link">
+                                <a href="https://gitlab.com/{{ page.resume.gitlab }}" target="_blank" class="button">
+                                    <span class="icon">
+                                        <i class="fab fa-gitlab"></i>
+                                    </span>
+                                    <span>{{ page.resume.gitlab }}</span>
+                                </a>
+                            </p>
+                        </div>
+                    </section>
+                    <section id="content" class="column is-full-touch is-two-third-desktop">
+                        <article id="languages" class="content">
+                            <h3 class="title is-size-4">Languages</h3>
+                            <div class="columns is-multiline">
+                                {% for language in page.resume.languages %}
+                                    <div class="column is-narrow">
+                                        <span class="icon">
+                                            <i class="fas fa-language"></i>
+                                        </span>
+                                        <span class="has-text-weight-bold">{{ language.name }}</span>
+                                        <span>{{ language.level | downcase }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </article>
+                        <hr>
+                        <article id="programming_languages" class="content">
+                            <h3 class="title is-size-4">Programming languages</h3>
+                            <div class="columns is-multiline">
+                                {% for language in page.resume.programming_languages %}
+                                    <div class="column is-narrow">
+                                        <span class="icon">
+                                            <i class="fas fa-code"></i>
+                                        </span>
+                                        <span class="has-text-weight-bold">{{ language.name }}</span>
+                                        <span>{{ language.level | downcase }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </article>
+                        <hr>
+                        <article id="skills" class="content">
+                            <h3 class="title is-size-4">Buzzword skills, technologies and trends</h3>
+                            <div class="columns is-multiline">
+                                {% for skill in page.resume.skills %}
+                                <div class="column is-narrow">
+                                    <span class="icon">
+                                        <i class="fas fa-compass"></i>
+                                    </span>
+                                    <span>{{ skill }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </article>
+                        <hr>
+                        <article id="opensource" class="content page-break-before">
+                            <h3 class="title is-size-4">Top open source projects I have contributed to</h3>
+                            <div class="tile is-ancestor">
+                                {% for project in page.resume.open_source_projects %}
+                                <div class="tile is-parent">
+                                    <div class="tile is-child box">
+                                        <h1 class="title is-size-6">{{ project.name }}</h1>
+                                        <p>{{ project.description }}</p>
+                                        <p>
+                                            <a href="https://github.com/{{ project.github }}" target="_blank" class="button">
+                                                <span class="icon">
+                                                    <i class="fab fa-github"></i>
+                                                </span>
+                                                <span>{{ project.github }}</span>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </article>
+                        <hr>
+                        <article id="experience" class="content">
+                            <h3 class="title is-size-4">Experiences</h3>
+                            {{ content }}
+                        </article>
+                        <hr>
+                        <article id="education" class="content">
+                            <h3 class="title is-size-4">Education</h3>
+                        </article>
+                        <hr>
+                        <article id="network" class="content">
+                            <h3 class="title is-size-4">People how can say good things about me</h3>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% if site.google_analytics %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131750791-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', '{{ site.google_analytics }}');
+    </script>
+    {% endif %}
+
+    <script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
