@@ -10,6 +10,7 @@
     <style>
         body, html {
             background-color: #f5f5f5;
+            line-height: 2rem;
         }
 
         figure.is-avatar {
@@ -28,7 +29,7 @@
             margin-left: -1px;
         }
 
-        section#about .is-bottom-spaced {
+        .is-bottom-spaced {
             margin-bottom: 1.5rem;
         }
 
@@ -48,13 +49,43 @@
             margin-top: -0.25rem;
         }
 
+        section#content .is-padded {
+            padding-left: 1.5rem;
+        }
+
+        section#content article#experience header:not(:first-child) {
+            margin-top: 2rem;
+        }
+
+        section#content article header .subtitle {
+            margin-top: -1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        section#content .is-buzzword {
+            padding: 5px .75rem;
+        }
+
+        section#content article header .has-no-bottom-margin {
+            margin-bottom: 0;
+        }
+
+        .is-print-only {
+            display: none;
+        }
+
         @media print {
             body, html {
                 font-size: 0.9rem;
+                line-height: 1.5rem;
             }
 
             section#about {
                 margin-bottom: 1.5rem;
+            }
+
+            section#content .is-buzzword {
+                padding: 2px .75rem;
             }
 
             .columns section.column {
@@ -62,8 +93,12 @@
                 width: 100%;
             }
 
-            .page-break-before {
-                page-break-before: always;
+            .is-not-printable {
+                display: none;
+            }
+
+            .is-print-only {
+                display: block;
             }
         }
     </style>
@@ -93,47 +128,40 @@
                         </h2>
 
                         <p class="is-bottom-spaced">
-                            <em>{{ page.resume.tagline | default: site.github.project_tagline }}</em>
-                        </p>
-
-                        <p class="is-bottom-spaced">
                             <span class="icon">
                                 <i class="fas fa-map-marked-alt"></i>
                             </span>
-                            São Paulo, São Paulo, Brazil
+                            {{ page.resume.location }}
                         </p>
 
-                        <div class="field is-grouped">
+                        <div class="field is-grouped is-bottom-spaced">
+                            {% for sn in page.resume.social %}
                             <p class="control social-link">
-                                <a href="https://github.com/{{ page.resume.github }}" target="_blank" class="button">
+                                <a href="{{ sn.link }}" target="_blank" class="button">
                                     <span class="icon">
-                                        <i class="fab fa-github"></i>
+                                        <i class="fab fa-{{ sn.icon }}"></i>
                                     </span>
-                                    <span>{{ page.resume.github }}</span>
+                                    <span class="is-not-printable">{{ sn.display }}</span>
+                                    <span class="is-print-only">{{ sn.link }}</span>
                                 </a>
                             </p>
-                            <p class="control social-link">
-                                <a href="https://gitlab.com/{{ page.resume.gitlab }}" target="_blank" class="button">
-                                    <span class="icon">
-                                        <i class="fab fa-gitlab"></i>
-                                    </span>
-                                    <span>{{ page.resume.gitlab }}</span>
-                                </a>
-                            </p>
+                            {% endfor %}
                         </div>
+
+                        <blockquote>{{ page.resume.tagline | default: site.github.project_tagline }}</blockquote>
                     </section>
                     <section id="content" class="column is-full-touch is-two-third-desktop">
                         <article id="languages" class="content">
                             <h3 class="title is-size-4">Languages</h3>
                             <div class="columns is-multiline">
                                 {% for language in page.resume.languages %}
-                                    <div class="column is-narrow">
-                                        <span class="icon">
-                                            <i class="fas fa-language"></i>
-                                        </span>
-                                        <span class="has-text-weight-bold">{{ language.name }}</span>
-                                        <span>{{ language.level | downcase }}</span>
-                                    </div>
+                                <div class="column is-narrow">
+                                    <span class="icon">
+                                        <i class="fas fa-globe-americas"></i>
+                                    </span>
+                                    <span class="has-text-weight-bold">{{ language.name }}</span>
+                                    <span>{{ language.level | downcase }}</span>
+                                </div>
                                 {% endfor %}
                             </div>
                         </article>
@@ -142,13 +170,13 @@
                             <h3 class="title is-size-4">Programming languages</h3>
                             <div class="columns is-multiline">
                                 {% for language in page.resume.programming_languages %}
-                                    <div class="column is-narrow">
-                                        <span class="icon">
-                                            <i class="fas fa-code"></i>
-                                        </span>
-                                        <span class="has-text-weight-bold">{{ language.name }}</span>
-                                        <span>{{ language.level | downcase }}</span>
-                                    </div>
+                                <div class="column is-narrow">
+                                    <span class="icon">
+                                        <i class="fas fa-code"></i>
+                                    </span>
+                                    <span class="has-text-weight-bold">{{ language.name }}</span>
+                                    <span>{{ language.level | downcase }}</span>
+                                </div>
                                 {% endfor %}
                             </div>
                         </article>
@@ -157,17 +185,17 @@
                             <h3 class="title is-size-4">Buzzword skills, technologies and trends</h3>
                             <div class="columns is-multiline">
                                 {% for skill in page.resume.skills %}
-                                <div class="column is-narrow">
-                                    <span class="icon">
-                                        <i class="fas fa-compass"></i>
+                                <div class="column is-narrow is-buzzword">
+                                    <span class="icon is-not-printable">
+                                        <i class="fas fa-caret-right"></i>
                                     </span>
-                                    <span>{{ skill }}</span>
+                                    {{ skill }}
                                 </div>
                                 {% endfor %}
                             </div>
                         </article>
                         <hr>
-                        <article id="opensource" class="content page-break-before">
+                        <article id="opensource" class="content">
                             <h3 class="title is-size-4">Top open source projects I have contributed to</h3>
                             <div class="tile is-ancestor">
                                 {% for project in page.resume.open_source_projects %}
@@ -191,15 +219,89 @@
                         <hr>
                         <article id="experience" class="content">
                             <h3 class="title is-size-4">Experiences</h3>
-                            {{ content }}
+                            {% for experience in page.resume.experiences %}
+                            <header>
+                                <h4 class="title is-size-5">{{ experience.company }}</h4>
+                                <p class="subtitle is-size-6 has-text-weight-semibold">{{ experience.role }}</p>
+                                <p class="subtitle is-size-7">
+                                    {{ experience.time | downcase }}
+                                </p>
+                            </header>
+                            <div class="is-padded">
+                                <p>{{ experience.description }}</p>
+                                <h5 class="subtitle is-size-6">Everyday buzzwords:</h5>
+                                <div class="is-padded">
+                                    <div class="columns is-multiline">
+                                        {% for skill in experience.buzzwords %}
+                                        <div class="column is-narrow is-buzzword">
+                                            <p>
+                                                <span class="icon is-not-printable">
+                                                    <i class="fas fa-caret-right"></i>
+                                                </span>
+                                                {{ skill }}
+                                            </p>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                         </article>
                         <hr>
                         <article id="education" class="content">
                             <h3 class="title is-size-4">Education</h3>
+                            {% for entry in page.resume.education_entries %}
+                            <header>
+                                <h4 class="title is-size-5">{{ entry.name }}</h4>
+                                <p class="subtitle is-size-6 has-text-weight-semibold">{{ entry.organization }}</p>
+                                <p class="subtitle is-size-7">
+                                    {{ entry.time | downcase }}
+                                </p>
+                                <div class="is-padded">
+                                    <div class="columns is-multiline">
+                                        {% for skill in entry.buzzwords %}
+                                        <div class="column is-narrow is-buzzword">
+                                            <p>
+                                                <span class="icon is-not-printable">
+                                                    <i class="fas fa-bookmark"></i>
+                                                </span>
+                                                {{ skill }}
+                                            </p>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </header>
+                            {% endfor %}
                         </article>
                         <hr>
                         <article id="network" class="content">
-                            <h3 class="title is-size-4">People how can say good things about me</h3>
+                            <h3 class="title is-size-4">People how can say nice things about me</h3>
+                            {% for person in page.resume.network %}
+                            <div class="field is-grouped">
+                                <div class="control">
+                                    <figure class="image is-32x32" style="margin: 0; padding-top: 6px;">
+                                        <img class="is-rounded" src="{{ person.avatar }}">
+                                    </figure>
+                                </div>
+                                <header>
+                                    <p class="is-size-5 has-text-weight-semibold has-no-bottom-margin">{{ person.name }}</p>
+                                    <p class="is-size-6 has-no-bottom-margin">{{ person.role }} @ {{ person.company }} - {{ person.location }}</p>
+                                    <div class="field is-grouped is-bottom-spaced">
+                                        {% for sn in person.social %}
+                                        <p class="control social-link">
+                                            <a href="{{ sn.link }}" target="_blank" class="button is-small">
+                                                <span class="icon">
+                                                    <i class="fab fa-{{ sn.icon }}"></i>
+                                                </span>
+                                                <span>{{ sn.link }}</span>
+                                            </a>
+                                        </p>
+                                        {% endfor %}
+                                    </div>
+                                </header>
+                            </div>
+                            {% endfor %}
                         </article>
                     </section>
                 </div>
@@ -208,15 +310,15 @@
     </section>
 
     {% if site.google_analytics %}
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131750791-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131750791-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
 
-        gtag('config', '{{ site.google_analytics }}');
-    </script>
+            gtag('config', '{{ site.google_analytics }}');
+        </script>
     {% endif %}
 
     <script defer src="https://use.fontawesome.com/releases/v5.6.3/js/all.js" integrity="sha384-EIHISlAOj4zgYieurP0SdoiBYfGJKkgWedPHH4jCzpCXLmzVsw1ouK59MuUtP4a1"
