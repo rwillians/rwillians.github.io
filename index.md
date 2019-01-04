@@ -4,7 +4,7 @@ layout: default
 resume:
     name: Rafael Willians
     birthdate: 1992-12-12
-    email: me@rwillians.com
+    avatar: https://www.gravatar.com/avatar/0d7ab408fb9411f7950957dfaa9d5472.jpg?s=96&r=g&d=mp
     role: Sr. Backend Engineer
     location: São Paulo, São Paulo, Brazil
     tagline: I'm passionated about solving problems.
