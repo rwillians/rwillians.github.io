@@ -101,7 +101,7 @@ resume:
     -   company: Hospital Alemão Oswaldo Cruz
         role: Backend Engineer
         time: Out 2016 - Nov 2017
-        description: Design of stateless distributed systems with microservices architecture applying security best practices towards the objective of transforming Mantris into a digital company.
+        description: Design of stateless distributed systems with microservices architecture applying security best practices to a project which provides actionable insights into employees' lifestyle quality.
         buzzwords:
         -   CI/CD
         -   DevOps
